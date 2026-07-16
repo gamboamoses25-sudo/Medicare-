@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MediCare | A Municipal Health Center Management System for Barangay Communities</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<section id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-logo">
+        <img src="medicare.png" alt="MediCare logo" class="brand-logo-img" />
+      </div>
+      <h1>MediCare<span class="accent">+</span></h1>
+      <p>A Municipal Health Center Management System for Barangay Communities</p>
+    </div>
+
+    <form id="loginForm" class="login-form">
+      <div class="field">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username" required />
+        <span class="error-msg" id="err-loginUsername"></span>
+      </div>
+
+      <div class="field">
+        <label for="staffPassword">Password</label>
+        <input type="password" id="staffPassword" placeholder="Enter your password" autocomplete="current-password" required />
+        <span class="error-msg" id="err-staffPassword"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        Sign In
+      </button>
+
+      <p class="auth-switch">Don't have a staff account yet? <a href="#" id="showSignupLink">Sign Up</a></p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== SIGN UP SCREEN ===================== -->
+<section id="signupScreen" class="login-screen hidden">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-logo">
+        <img src="medicare.png" alt="MediCare logo" class="brand-logo-img" />
+      </div>
+      <div class="brand-name">MediCare<span class="accent">+</span></div>
+      <p>Create your staff account</p>
+    </div>
+
+    <form id="signupForm" class="login-form">
+      <div class="field">
+        <label for="suFullName">Full Name</label>
+        <input type="text" id="suFullName" placeholder="e.g. Dr. Sarah Reyes" autocomplete="name" required />
+        <span class="error-msg" id="err-suFullName"></span>
+      </div>
+
+      <div class="field">
+        <label for="suUsername">Username</label>
+        <input type="text" id="suUsername" placeholder="Choose a username" autocomplete="username" required />
+        <span class="error-msg" id="err-suUsername"></span>
+      </div>
+
+      <div class="field">
+        <label for="suEmail">Email</label>
+        <input type="email" id="suEmail" placeholder="e.g. name@medicareplus.com" autocomplete="email" required />
+        <span class="error-msg" id="err-suEmail"></span>
+      </div>
+
+      <div class="field">
+        <label for="suRole">Staff Role</label>
+        <select id="suRole" required>
+          <option value="" disabled selected>Select staff role</option>
+          <option value="Doctor">Doctor</option>
+          <option value="Nurse">Nurse</option>
+          <option value="Receptionist">Receptionist</option>
+        </select>
+        <span class="error-msg" id="err-suRole"></span>
+      </div>
+
+      <div class="field">
+        <label for="suPassword">Password</label>
+        <input type="password" id="suPassword" placeholder="Create a password" autocomplete="new-password" required />
+        <span class="error-msg" id="err-suPassword"></span>
+      </div>
+
+      <div class="field">
+        <label for="suConfirmPassword">Confirm Password</label>
+        <input type="password" id="suConfirmPassword" placeholder="Re-enter your password" autocomplete="new-password" required />
+        <span class="error-msg" id="err-suConfirmPassword"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        Create Account
+      </button>
+
+      <p class="auth-switch">Already have an account? <a href="#" id="showLoginLink">Sign In</a></p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== MAIN APP ===================== -->
+<div id="appShell" class="app-shell hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo small">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2 L12 22 M2 12 L22 12" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span>MediCare<span class="accent">+</span></span>
+    </div>
+
+        <!-- Custom logo placeholder removed -->
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="search" data-roles="doctor,nurse,receptionist">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Search Patient
+      </button>
+      <button class="nav-item" data-view="register" data-roles="receptionist">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        Register Patient
+      </button>
+      <button class="nav-item" data-view="records" data-roles="doctor,nurse">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        Patient Records
+      </button>
+      <button class="nav-item" data-view="upload" data-roles="doctor,nurse">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+        Upload Document
+      </button>
+      <button class="nav-item" data-view="audit" data-roles="doctor">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+        Audit Log
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button id="logoutBtn" class="nav-item logout">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrap">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button id="menuToggle" class="icon-btn" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="topbar-user">
+        <div class="user-role-badge" id="userRoleBadge">Doctor</div>
+        <div class="user-avatar" id="userAvatar">SR</div>
+        <div class="user-info">
+          <strong id="userName">Dr. Sarah Reyes</strong>
+          <span id="userRoleText">Doctor</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- ============ DASHBOARD VIEW ============ -->
+      <section class="view active" id="view-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statTotalPatients">0</span>
+              <span class="stat-label">Total Patients</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statTotalDocs">0</span>
+              <span class="stat-label">Documents Uploaded</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statAuditEntries">0</span>
+              <span class="stat-label">Audit Log Entries</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statRole">—</span>
+              <span class="stat-label">Signed in as</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10Z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statTodaysPatients">0</span>
+              <span class="stat-label">Today's Patients</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10h-6V4H9v6H3v10h18V10Z"/><path d="M7 14h10"/><path d="M12 9v5"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statWaitingPatients">0</span>
+              <span class="stat-label">Waiting Patients</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12A9 9 0 1 1 12 3v3"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statCompletedConsultations">0</span>
+              <span class="stat-label">Completed Consultations</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4V4Z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            </div>
+            <div>
+              <span class="stat-value" id="statNewRegistrations">0</span>
+              <span class="stat-label">New Registrations</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Recently Added Patients</h3>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="recentPatientsTable">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Actions</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SEARCH VIEW ============ -->
+      <section class="view" id="view-search">
+        <div class="card">
+          <div class="card-header">
+            <h3>Search Patient Records</h3>
+          </div>
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by Patient ID, Name, or Contact Number..." />
+            <button id="searchBtn" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Search Patient
+            </button>
+          </div>
+          <p class="muted" id="searchResultCount"></p>
+          <div class="table-wrap">
+            <table class="data-table" id="searchResultsTable">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Address</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ REGISTER VIEW ============ -->
+      <section class="view" id="view-register">
+        <div class="card form-card">
+          <div class="card-header">
+            <h3>Register New Patient</h3>
+          </div>
+          <form id="registerForm" class="grid-form" novalidate>
+            <div class="field">
+              <label for="regId">Patient ID</label>
+              <input type="text" id="regId" readonly />
+            </div>
+            <div class="field">
+              <label for="regName">Full Name <span class="req">*</span></label>
+              <input type="text" id="regName" placeholder="e.g. Juan Dela Cruz" />
+              <span class="error-msg" id="err-regName"></span>
+            </div>
+            <div class="field">
+              <label for="regAge">Age <span class="req">*</span></label>
+              <input type="number" id="regAge" min="0" max="120" placeholder="e.g. 34" />
+              <span class="error-msg" id="err-regAge"></span>
+            </div>
+            <div class="field">
+              <label for="regGender">Gender <span class="req">*</span></label>
+              <select id="regGender">
+                <option value="" disabled selected>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <span class="error-msg" id="err-regGender"></span>
+            </div>
+            <div class="field">
+              <label for="regContact">Contact Number <span class="req">*</span></label>
+              <input type="text" id="regContact" placeholder="e.g. 0917-123-4567" />
+              <span class="error-msg" id="err-regContact"></span>
+            </div>
+            <div class="field">
+              <label for="regPhotoFile">Upload Patient Photo</label>
+              <input type="file" id="regPhotoFile" accept="image/*" />
+            </div>
+            <div class="field">
+              <label for="regHouseNo">House No. <span class="req">*</span></label>
+              <input type="text" id="regHouseNo" placeholder="e.g. 12-A" />
+              <span class="error-msg" id="err-regHouseNo"></span>
+            </div>
+            <div class="field">
+              <label for="regStreet">Street <span class="req">*</span></label>
+              <input type="text" id="regStreet" placeholder="e.g. Rizal St." />
+              <span class="error-msg" id="err-regStreet"></span>
+            </div>
+            <div class="field">
+              <label for="regSubdivision">Subdivision</label>
+              <input type="text" id="regSubdivision" placeholder="e.g. Green Meadows" />
+              <span class="error-msg" id="err-regSubdivision"></span>
+            </div>
+            <div class="field">
+              <label for="regBarangay">Barangay <span class="req">*</span></label>
+              <input type="text" id="regBarangay" placeholder="e.g. Barangay 5" />
+              <span class="error-msg" id="err-regBarangay"></span>
+            </div>
+            <div class="field">
+              <label for="regMunicipality">Municipality/City <span class="req">*</span></label>
+              <input type="text" id="regMunicipality" placeholder="e.g. Caloocan City" />
+              <span class="error-msg" id="err-regMunicipality"></span>
+            </div>
+            <div class="field">
+              <label for="regProvince">Province <span class="req">*</span></label>
+              <input type="text" id="regProvince" placeholder="e.g. Metro Manila" />
+              <span class="error-msg" id="err-regProvince"></span>
+            </div>
+            <div class="field">
+              <label for="regZipCode">ZIP Code <span class="req">*</span></label>
+              <input type="text" id="regZipCode" placeholder="e.g. 1400" />
+              <span class="error-msg" id="err-regZipCode"></span>
+            </div>
+            <div class="form-actions span-2">
+              <button type="reset" class="btn btn-ghost">Clear</button>
+              <button type="submit" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+                Register Patient
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============ RECORDS VIEW ============ -->
+      <section class="view" id="view-records">
+        <div class="card">
+          <div class="card-header">
+            <h3>All Patient Records</h3>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="recordsTable">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Medical History</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ UPLOAD VIEW ============ -->
+      <section class="view" id="view-upload">
+        <div class="card form-card">
+          <div class="card-header">
+            <h3>Upload Medical Document</h3>
+          </div>
+          <div class="grid-form">
+            <div class="field span-2">
+              <label for="uploadPatientSelect">Select Patient <span class="req">*</span></label>
+              <select id="uploadPatientSelect">
+                <option value="" disabled selected>Choose a patient</option>
+              </select>
+            </div>
+            <div class="field span-2">
+              <label>Medical Document (PDF or Image) <span class="req">*</span></label>
+              <label class="dropzone" id="dropzone" for="fileInput">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span id="dropzoneText">Click to select or drag a file here (PDF, JPG, PNG)</span>
+                <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" hidden />
+              </label>
+              <span class="error-msg" id="err-fileInput"></span>
+            </div>
+            <div class="field span-2">
+              <button id="uploadBtn" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+                Upload Document
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Recently Uploaded Documents</h3></div>
+          <div class="table-wrap">
+            <table class="data-table" id="uploadsTable">
+              <thead><tr><th>Patient</th><th>File Name</th><th>Type</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ AUDIT LOG VIEW ============ -->
+      <section class="view" id="view-audit">
+        <div class="card">
+          <div class="card-header">
+            <h3>Audit Log</h3>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="auditTable">
+              <thead>
+                <tr><th>Timestamp</th><th>Staff Role</th><th>Patient Name</th><th>Action Performed</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+  </div>
+</div>
+
+<!-- ===================== EDIT PATIENT MODAL ===================== -->
+<div class="modal-overlay" id="editModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Update Patient Record</h3>
+      <button class="icon-btn" id="closeEditModal" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <form id="editForm" class="grid-form modal-body">
+      <input type="hidden" id="editId" />
+      <div class="field">
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" />
+      </div>
+      <div class="field">
+        <label for="editAge">Age</label>
+        <input type="number" id="editAge" min="0" max="120" />
+      </div>
+      <div class="field">
+        <label for="editGender">Gender</label>
+        <select id="editGender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="editContact">Contact Number</label>
+        <input type="text" id="editContact" />
+      </div>
+      <div class="field">
+        <label for="editPhotoUrl">Photo URL</label>
+        <input type="text" id="editPhotoUrl" placeholder="Optional photo URL" />
+      </div>
+      <div class="field">
+        <label for="editQueueStatus">Queue Status</label>
+        <select id="editQueueStatus">
+          <option value="Waiting">Waiting</option>
+          <option value="In Consultation">In Consultation</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="editHouseNo">House No.</label>
+        <input type="text" id="editHouseNo" />
+      </div>
+      <div class="field">
+        <label for="editStreet">Street</label>
+        <input type="text" id="editStreet" />
+      </div>
+      <div class="field">
+        <label for="editSubdivision">Subdivision</label>
+        <input type="text" id="editSubdivision" />
+      </div>
+      <div class="field">
+        <label for="editBarangay">Barangay</label>
+        <input type="text" id="editBarangay" />
+      </div>
+      <div class="field">
+        <label for="editMunicipality">Municipality/City</label>
+        <input type="text" id="editMunicipality" />
+      </div>
+      <div class="field">
+        <label for="editProvince">Province</label>
+        <input type="text" id="editProvince" />
+      </div>
+      <div class="field">
+        <label for="editZipCode">ZIP Code</label>
+        <input type="text" id="editZipCode" />
+      </div>
+      <div class="field span-2">
+        <label for="editHistory">Medical History</label>
+        <textarea id="editHistory" rows="3"></textarea>
+      </div>
+      <div class="form-actions span-2">
+        <button type="button" class="btn btn-ghost" id="cancelEditBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== PATIENT DETAILS MODAL ===================== -->
+<div class="modal-overlay" id="viewModalOverlay">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3>Patient Details</h3>
+      <button class="icon-btn" id="closeViewModal" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="viewModalBody"></div>
+  </div>
+</div>
+
+<!-- ===================== DOCUMENT PREVIEW MODAL ===================== -->
+<div class="modal-overlay" id="docViewerOverlay">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h3>Document Preview</h3>
+      <button class="icon-btn" id="closeDocViewer" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="docViewerBody"></div>
+  </div>
+</div>
+
+<!-- ===================== DELETE CONFIRMATION MODAL ===================== -->
+<div class="modal-overlay" id="deleteModalOverlay">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h3>Delete Patient Record</h3>
+      <button class="icon-btn" id="closeDeleteModal" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="delete-warning">
+        <div class="delete-warning-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        </div>
+        <p>Are you sure you want to delete <strong id="deletePatientName">this patient</strong>'s record? This action cannot be undone.</p>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn btn-danger-solid" id="confirmDeleteBtn">Yes, Delete Record</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TOAST NOTIFICATION CONTAINER ===================== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
